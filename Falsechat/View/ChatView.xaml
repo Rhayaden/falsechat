@@ -1,0 +1,61 @@
+﻿<Page x:Class="Falsechat.View.ChatView"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Falsechat.View"
+      mc:Ignorable="d" 
+      d:DesignHeight="455" d:DesignWidth="600">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="360"/>
+            <RowDefinition Height="95"/>
+        </Grid.RowDefinitions>
+        <Border CornerRadius="9" BorderThickness="1,1,1,1" BorderBrush="Transparent" Background="#e2e2e2" Margin="5,5,5,5">
+            <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" ScrollChanged="ScrollViewer_ScrollChanged">
+                <ItemsControl x:Name="Chat" ItemsSource="{Binding Chat, UpdateSourceTrigger=PropertyChanged}" Padding="10,10,10,10">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="20"/>
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition />
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="{Binding Sender}" HorizontalAlignment="Left" VerticalAlignment="Bottom" FontSize="15" FontWeight="DemiBold" Foreground="Black"/>
+                                    <TextBlock Text=" " VerticalAlignment="Bottom" HorizontalAlignment="Center" FontWeight="SemiBold"/>
+                                    <TextBlock Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Bottom" Text="{Binding SentDate}" FontSize="12" Foreground="Black"/>
+                                </StackPanel>
+                                <TextBlock Grid.Row="1" Grid.ColumnSpan="2" Text="{Binding SentMessage}" TextWrapping="Wrap" FontSize="13" Foreground="Black" Margin="1,0,1,1"/>
+                            </Grid>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+        </Border>
+        <Border Grid.Row="1" Width="600" CornerRadius="9" Background="#e2e2e2" Margin="5,0,5,5">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="75"/>
+                </Grid.ColumnDefinitions>
+                <ScrollViewer x:Name="ChatScroll" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                    <TextBox x:Name="MessageTextBox" Style="{StaticResource messageTextBox}" MaxLength="1000" Text="{Binding Message, UpdateSourceTrigger=PropertyChanged}" Background="Transparent" BorderThickness="0" TextWrapping="Wrap" FontSize="13" FontWeight="DemiBold" Padding="5,2,0,2" TextChanged="MessageTextBox_TextChanged">
+                        <TextBox.InputBindings>
+                            <KeyBinding Command="{Binding SendMessageCommand}" Key="Return"/>
+                        </TextBox.InputBindings>
+                    </TextBox>
+                </ScrollViewer>
+                <TextBlock x:Name="MessagePlaceHolder" Panel.ZIndex="-1" Text="Message" Background="Transparent" Foreground="#909090" FontSize="13" FontWeight="SemiBold" Padding="6,2,0,2" Visibility="Visible"/>
+                <TextBlock x:Name="MessageLengthWarner" Background="#e2e2e2" Foreground="#f73e3e" Panel.ZIndex="3" FontWeight="DemiBold" Visibility="Collapsed" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,20,0"/>
+                <Button Grid.Column="1" Background="Transparent" BorderBrush="LightGray" BorderThickness="1,0,0,0" Command="{Binding SendMessageCommand}">
+                    <Image Source="/Images/Icons/send_message_icon.png"/>
+                </Button>
+            </Grid>
+        </Border>
+    </Grid>
+</Page>
